@@ -2,6 +2,7 @@ fastapi==0.70.0
 uvicorn[standard]==0.15.0
 sqlalchemy==1.4.26
 aiosqlite==0.17.0
+anyio==3.7.1
 requests==2.30.0
 pydantic==1.8.2
 black==21.12b0
