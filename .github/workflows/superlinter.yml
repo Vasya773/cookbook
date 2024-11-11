@@ -29,8 +29,8 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --upgrade pip setuptools wheel
-        pip install --no-binary :all: -r requirements.txt
         pip install --no-use-pep517 isort==5.9.3
+        pip install --no-binary :all: -r requirements.txt
 
     - name: Run tests with pytest
       run: |
