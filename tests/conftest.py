@@ -7,7 +7,7 @@ from ..main import app
 from ..database import DATABASE_URL, Base
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 async def database_engine():
     engine = create_async_engine(DATABASE_URL, echo=True)
     async with engine.begin() as conn:
@@ -15,7 +15,7 @@ async def database_engine():
     return engine
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 async def db_session(database_engine):
     async with database_engine.connect() as connection:
         await connection.begin()
