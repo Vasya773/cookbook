@@ -80,7 +80,7 @@ async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
             raise HTTPException(status_code=404, detail='Рецепт не найден')
 
         existing_deep_recipe = await session.execute(
-            select(DeepRecipes).filter(
+            select(DeepRecipes).where(
                 DeepRecipes.name == recipe.name,
                 DeepRecipes.ingredients == deep_recipe.ingredients
             )
