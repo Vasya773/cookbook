@@ -28,7 +28,9 @@ async def shutdown():
 async def get_all_recipes() -> List[Recipes]:
     """Получение всех рецептов из кулинарной книги"""
     async with async_session() as session:
-        res = await session.execute(select(Recipes).order_by(Recipes.number_views.desc(), Recipes.cooking_time))
+        res = await session.execute(select(Recipes).order_by(
+            Recipes.number_views.desc(), Recipes.cooking_time)
+            )
         return res.scalars().all()
 
 
@@ -36,7 +38,9 @@ async def get_all_recipes() -> List[Recipes]:
 async def get_recipe_by_id(recipe_id: int):
     """Получение детальной информации о конкретном рецепте по ID"""
     async with async_session() as session:
-        result = await session.execute(select(Recipes).where(Recipes.recipe_id == recipe_id))
+        result = await session.execute(select(Recipes).where(
+            Recipes.recipe_id == recipe_id)
+        )
         recipe = result.scalar_one_or_none()
 
         if recipe is None:
@@ -73,7 +77,9 @@ async def create_new_recipe(recipes: RecipesIn):
 async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
     """Добавление ингредиентов для создания блюда"""
     async with async_session() as session:
-        result = await session.execute(select(Recipes).where(Recipes.recipe_id == recipe_id))
+        result = await session.execute(select(Recipes).where(
+            Recipes.recipe_id == recipe_id)
+        )
         recipe = result.scalar_one_or_none()
 
         if recipe is None:
@@ -81,8 +87,10 @@ async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
 
         existing_deep_recipe = await session.execute(
             select(DeepRecipes).where(
+                and_(
                 DeepRecipes.name == recipe.name,
                 DeepRecipes.ingredients == deep_recipe.ingredients
+                )
             )
         )
         result_existing_deep_recipe = existing_deep_recipe.scalar_one_or_none()
