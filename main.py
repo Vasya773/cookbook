@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import FastAPI, HTTPException
 from sqlalchemy.future import select
+from sqlalchemy import and_
 
 from .database import Base, async_session, engine, session
 from .models import Recipes, DeepRecipes
