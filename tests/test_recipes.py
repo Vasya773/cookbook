@@ -1,17 +1,14 @@
-import pytest
 from .conftest import db_session
 
 
-@pytest.mark.asyncio
-async def test_get_all_recipes(client, db_session):
+def test_get_all_recipes(client, db_session):
     response = client.get('/recipes/')
     print(response.json())
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
 
-@pytest.mark.asyncio
-async def test_create_new_recipe(client, db_session):
+def test_create_new_recipe(client, db_session):
     new_recipe_data = {
         'name': 'Пельмени',
         'number_views': 0,
@@ -23,16 +20,14 @@ async def test_create_new_recipe(client, db_session):
     assert response.json()['name'] == 'Пельмени'
 
 
-@pytest.mark.asyncio
-async def test_get_recipe_by_id(client, db_session):
+def test_get_recipe_by_id(client, db_session):
     response = client.get('/recipes/1')
     print(response.json())
     assert response.status_code == 200
     assert response.json()['name'] == 'Пельмени'
 
 
-@pytest.mark.asyncio
-async def test_create_existing_recipe(client, db_session):
+def test_create_existing_recipe(client, db_session):
     existing_recipe_data = {
         'name': 'Пельмени',
         'number_views': 0,
@@ -44,8 +39,7 @@ async def test_create_existing_recipe(client, db_session):
     assert response.json()['detail'] == 'Этот рецепт уже существует.'
 
 
-@pytest.mark.asyncio
-async def test_add_ingredients(client, db_session):
+def test_add_ingredients(client, db_session):
     ingredients_data = {
         'name': 'Пельмени',
         'ingredients': 'Тесто, фарш',
@@ -58,8 +52,7 @@ async def test_add_ingredients(client, db_session):
     assert response.json()['ingredients'] == 'Тесто, фарш'
 
 
-@pytest.mark.asyncio
-async def test_add_existing_deep_recipe(client, db_session):
+def test_add_existing_deep_recipe(client, db_session):
     ingredients_data = {
         'name': 'Пельмени',
         'ingredients': 'Тесто, фарш',
