@@ -51,7 +51,7 @@ async def get_recipe_by_id(recipe_id: int):
 async def create_new_recipe(recipes: RecipesIn):
     """Создание нового рецепта"""
     async with async_session()as session:
-        new_recipe = Recipes(**recipes.model_dump())
+        new_recipe = Recipes(**recipes.dict())
 
         existing_recipe = await session.execute(
             select(Recipes).where(
