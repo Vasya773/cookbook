@@ -44,7 +44,7 @@ async def get_recipe_by_id(recipe_id: int):
 
         recipe.number_views += 1
         await session.commit()
-        return RecipesOut.model_validate(recipe)
+        return RecipesOut.dict(recipe)
 
 
 @app.post('/recipes', response_model=RecipesOut)
@@ -66,7 +66,7 @@ async def create_new_recipe(recipes: RecipesIn):
         session.add(new_recipe)
         await session.commit()
         await session.refresh(new_recipe)
-        return RecipesOut.model_validate(new_recipe)
+        return RecipesOut.dict(new_recipe)
 
 
 @app.post('/deep_recipes', response_model=DeepRecipesOut)
@@ -98,7 +98,7 @@ async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
         )
         session.add(new_deep_recipes)
         await session.commit()
-        return DeepRecipesOut.model_validate(new_deep_recipes)
+        return DeepRecipesOut.dict(new_deep_recipes)
 
 
 if __name__ == '__main__':
