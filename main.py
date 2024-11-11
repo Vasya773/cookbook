@@ -25,7 +25,7 @@ async def shutdown():
     await engine.dispose()
 
 
-@app.get('/recipes/', response_model=List[RecipesOut])
+@app.get("/recipes/", response_model=List[RecipesOut])
 async def get_all_recipes() -> List[Recipes]:
     """Получение всех рецептов из кулинарной книги"""
     async with async_session() as session:
@@ -35,7 +35,7 @@ async def get_all_recipes() -> List[Recipes]:
         return res.scalars().all()
 
 
-@app.get('/recipes/{recipe_id}', response_model=RecipesOut)
+@app.get("/recipes/{recipe_id}", response_model=RecipesOut)
 async def get_recipe_by_id(recipe_id: int):
     """Получение детальной информации о конкретном рецепте по ID"""
     async with async_session() as session:
@@ -52,7 +52,7 @@ async def get_recipe_by_id(recipe_id: int):
         return RecipesOut.from_orm(recipe)
 
 
-@app.post('/recipes', response_model=RecipesOut)
+@app.post("/recipes", response_model=RecipesOut)
 async def create_new_recipe(recipes: RecipesIn):
     """Создание нового рецепта"""
     async with async_session()as session:
@@ -66,7 +66,7 @@ async def create_new_recipe(recipes: RecipesIn):
         result_existing_recipe = existing_recipe.scalar_one_or_none()
 
         if result_existing_recipe is not None:
-            raise HTTPException(status_code=400, detail='Этот рецепт уже существует.')
+            raise HTTPException(status_code=400, detail="Этот рецепт уже существует.")
 
         session.add(new_recipe)
         await session.commit()
@@ -74,7 +74,7 @@ async def create_new_recipe(recipes: RecipesIn):
         return RecipesOut.from_orm(new_recipe)
 
 
-@app.post('/deep_recipes', response_model=DeepRecipesOut)
+@app.post("/deep_recipes", response_model=DeepRecipesOut)
 async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
     """Добавление ингредиентов для создания блюда"""
     async with async_session() as session:
@@ -84,7 +84,7 @@ async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
         recipe = result.scalar_one_or_none()
 
         if recipe is None:
-            raise HTTPException(status_code=404, detail='Рецепт не найден')
+            raise HTTPException(status_code=404, detail="Рецепт не найден")
 
         existing_deep_recipe = await session.execute(
             select(DeepRecipes).where(
@@ -97,7 +97,7 @@ async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
         result_existing_deep_recipe = existing_deep_recipe.scalar_one_or_none()
 
         if result_existing_deep_recipe is not None:
-            raise HTTPException(status_code=400, detail='Этот рецепт уже существует.')
+            raise HTTPException(status_code=400, detail="Этот рецепт уже существует.")
 
 
         new_deep_recipes = DeepRecipes(
@@ -110,5 +110,5 @@ async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
         return DeepRecipesOut.from_orm(new_deep_recipes)
 
 
-if __name__ == '__main__':
-    uvicorn.run(app, host='127.0.0.1', port=8001, log_level='info')
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8001, log_level="info")
