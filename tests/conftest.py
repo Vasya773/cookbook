@@ -26,7 +26,7 @@ async def db_session(database_engine):
 
 
 @pytest.fixture()
-async def client(db_session):
+def client(db_session):
     app.state.database_session = db_session
     with TestClient(app) as client:
         yield client
