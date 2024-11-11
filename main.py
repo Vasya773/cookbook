@@ -36,7 +36,7 @@ async def get_all_recipes() -> List[Recipes]:
 async def get_recipe_by_id(recipe_id: int):
     """Получение детальной информации о конкретном рецепте по ID"""
     async with async_session() as session:
-        result = await session.execute(select(Recipes).where(Recipes.recipe_id == recipe_id))
+        result = await session.execute(select(Recipes).filter(Recipes.recipe_id == recipe_id))
         recipe = result.scalar_one_or_none()
 
         if recipe is None:
@@ -54,7 +54,7 @@ async def create_new_recipe(recipes: RecipesIn):
         new_recipe = Recipes(**recipes.dict())
 
         existing_recipe = await session.execute(
-            select(Recipes).where(
+            select(Recipes).filter(
                 Recipes.name == recipes.name
             )
         )
@@ -73,14 +73,14 @@ async def create_new_recipe(recipes: RecipesIn):
 async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
     """Добавление ингредиентов для создания блюда"""
     async with async_session() as session:
-        result = await session.execute(select(Recipes).where(Recipes.recipe_id == recipe_id))
+        result = await session.execute(select(Recipes).filter(Recipes.recipe_id == recipe_id))
         recipe = result.scalar_one_or_none()
 
         if recipe is None:
             raise HTTPException(status_code=404, detail='Рецепт не найден')
 
         existing_deep_recipe = await session.execute(
-            select(DeepRecipes).where(
+            select(DeepRecipes).filter(
                 DeepRecipes.name == recipe.name,
                 DeepRecipes.ingredients == deep_recipe.ingredients
             )
