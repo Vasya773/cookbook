@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Integer
 from .database import Base
 
 class Recipes(Base):
-    __tablename__ = 'Recipes'
+    __tablename__ = "Recipes"
     recipe_id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     number_views = Column(Integer, default=0, index=True)
@@ -11,7 +11,7 @@ class Recipes(Base):
 
 
 class DeepRecipes(Base):
-    __tablename__ = 'DeepRecipes'
+    __tablename__ = "DeepRecipes"
     recipe_id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     ingredients = Column(String)
