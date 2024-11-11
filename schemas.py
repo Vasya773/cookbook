@@ -15,6 +15,7 @@ class RecipesOut(BaseRecipes):
 
     class Config:
         from_attributes = True
+        orm_mode = True
 
 class BaseDeepRecipes(BaseModel):
     name: str
@@ -29,3 +30,4 @@ class DeepRecipesOut(BaseDeepRecipes):
 
     class Config:
         from_attributes = True
+        orm_mode = True
