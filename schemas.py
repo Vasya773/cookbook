@@ -8,9 +8,7 @@ class BaseRecipes(BaseModel):
     cooking_time: int
 
 class RecipesIn(BaseRecipes):
-    name: str
-    number_views: int
-    cooking_time: int
+    ...
 
 class RecipesOut(BaseRecipes):
     recipe_id: int
@@ -24,9 +22,7 @@ class BaseDeepRecipes(BaseModel):
     description: Optional[str] = None
 
 class DeepRecipesIn(BaseDeepRecipes):
-    name: str
-    ingredients: str
-    description: Optional[str] = str
+    ...
 
 class DeepRecipesOut(BaseDeepRecipes):
     recipe_id: int
