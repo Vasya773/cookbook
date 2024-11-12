@@ -29,8 +29,8 @@ async def shutdown():
 async def get_all_recipes() -> List[Recipes]:
     """Получение всех рецептов из кулинарной книги"""
     async with async_session() as session:
-        res = await session.execute(select(Recipes).order_by(
-            Recipes.number_views.desc(), Recipes.cooking_time)
+        res = await session.execute(
+            select(Recipes).order_by(Recipes.number_views.desc(), Recipes.cooking_time)
             )
         return res.scalars().all()
 
@@ -39,13 +39,13 @@ async def get_all_recipes() -> List[Recipes]:
 async def get_recipe_by_id(recipe_id: int):
     """Получение детальной информации о конкретном рецепте по ID"""
     async with async_session() as session:
-        result = await session.execute(select(Recipes).where(
-            Recipes.recipe_id == recipe_id)
+        result = await session.execute(
+            select(Recipes).where(Recipes.recipe_id == recipe_id)
         )
         recipe = result.scalar_one_or_none()
 
         if recipe is None:
-            raise HTTPException(status_code=404, detail='Рецепт не найден')
+            raise HTTPException(status_code=404, detail="Рецепт не найден")
 
         recipe.number_views += 1
         await session.commit()
@@ -55,12 +55,11 @@ async def get_recipe_by_id(recipe_id: int):
 @app.post("/recipes", response_model=RecipesOut)
 async def create_new_recipe(recipes: RecipesIn):
     """Создание нового рецепта"""
-    async with async_session()as session:
+    async with async_session() as session:
         new_recipe = Recipes(**recipes.dict())
 
         existing_recipe = await session.execute(
-            select(Recipes).where(
-                Recipes.name == recipes.name
+            select(Recipes).where(Recipes.name == recipes.name
             )
         )
         result_existing_recipe = existing_recipe.scalar_one_or_none()
@@ -78,8 +77,8 @@ async def create_new_recipe(recipes: RecipesIn):
 async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
     """Добавление ингредиентов для создания блюда"""
     async with async_session() as session:
-        result = await session.execute(select(Recipes).where(
-            Recipes.recipe_id == recipe_id)
+        result = await session.execute(
+            select(Recipes).where(Recipes.recipe_id == recipe_id)
         )
         recipe = result.scalar_one_or_none()
 
@@ -89,8 +88,8 @@ async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
         existing_deep_recipe = await session.execute(
             select(DeepRecipes).where(
                 and_(
-                DeepRecipes.name == recipe.name,
-                DeepRecipes.ingredients == deep_recipe.ingredients
+                    DeepRecipes.name == recipe.name,
+                    DeepRecipes.ingredients == deep_recipe.ingredients
                 )
             )
         )
@@ -103,7 +102,7 @@ async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
         new_deep_recipes = DeepRecipes(
             name=recipe.name,
             ingredients=deep_recipe.ingredients,
-            description=deep_recipe.description
+            description=deep_recipe.description,
         )
         session.add(new_deep_recipes)
         await session.commit()
