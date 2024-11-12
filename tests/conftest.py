@@ -1,10 +1,10 @@
 import pytest
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import sessionmaker
 
-from ..main import app
 from ..database import DATABASE_URL, Base
+from ..main import app
 
 
 @pytest.fixture(scope="session")
