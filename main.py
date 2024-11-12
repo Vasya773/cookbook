@@ -29,8 +29,7 @@ async def get_all_recipes() -> List[Recipes]:
     """Получение всех рецептов из кулинарной книги"""
     async with async_session() as session:
         res = await session.execute(
-            select(Recipes).order_by(
-                Recipes.number_views.desc(), Recipes.cooking_time)
+            select(Recipes).order_by(Recipes.number_views.desc(), Recipes.cooking_time)
         )
         return res.scalars().all()
 
@@ -64,8 +63,7 @@ async def create_new_recipe(recipes: RecipesIn):
         result_existing_recipe = existing_recipe.scalar_one_or_none()
 
         if result_existing_recipe is not None:
-            raise HTTPException(status_code=400,
-                                detail="Этот рецепт уже существует.")
+            raise HTTPException(status_code=400, detail="Этот рецепт уже существует.")
 
         session.add(new_recipe)
         await session.commit()
@@ -96,8 +94,7 @@ async def add_ingredients(recipe_id: int, deep_recipe: DeepRecipesIn):
         result_existing_deep_recipe = existing_deep_recipe.scalar_one_or_none()
 
         if result_existing_deep_recipe is not None:
-            raise HTTPException(status_code=400,
-                                detail="Этот рецепт уже существует.")
+            raise HTTPException(status_code=400, detail="Этот рецепт уже существует.")
 
         new_deep_recipes = DeepRecipes(
             name=recipe.name,
