@@ -32,7 +32,11 @@ def test_create_existing_recipe(client, db_session):
 
 
 def test_add_ingredients(client, db_session):
-    ingredients_data = {"name": "Пельмени", "ingredients": "Тесто, фарш", "description": "Пельмени домашние"}
+    ingredients_data = {
+        "name": "Пельмени", 
+        "ingredients": "Тесто, фарш", 
+        "description": "Пельмени домашние"
+    }
     response = client.post("/deep_recipes?recipe_id=1", json=ingredients_data)
     print(response.json())
     assert response.status_code == 200
@@ -41,7 +45,11 @@ def test_add_ingredients(client, db_session):
 
 
 def test_add_existing_deep_recipe(client, db_session):
-    ingredients_data = {"name": "Пельмени", "ingredients": "Тесто, фарш", "description": "Пельмени домашние"}
+    ingredients_data = {
+        "name": "Пельмени", 
+        "ingredients": "Тесто, фарш", 
+        "description": "Пельмени домашние"
+    }
     response = client.post("/deep_recipes?recipe_id=1", json=ingredients_data)
     print(response.json())
     assert response.status_code == 400
