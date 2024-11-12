@@ -1,14 +1,13 @@
 from typing import List
 
+import uvicorn
 from fastapi import FastAPI, HTTPException
-from sqlalchemy.future import select
 from sqlalchemy import and_
+from sqlalchemy.future import select
 
 from .database import Base, async_session, engine, session
-from .models import Recipes, DeepRecipes
-from .schemas import RecipesOut, RecipesIn, DeepRecipesOut, DeepRecipesIn
-import uvicorn
-
+from .models import DeepRecipes, Recipes
+from .schemas import DeepRecipesIn, DeepRecipesOut, RecipesIn, RecipesOut
 
 app = FastAPI()
 
