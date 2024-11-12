@@ -2,6 +2,7 @@ from sqlalchemy import Column, String, Integer
 
 from .database import Base
 
+
 class Recipes(Base):
     __tablename__ = "Recipes"
     recipe_id = Column(Integer, primary_key=True, index=True)
